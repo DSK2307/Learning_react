@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+
+
 function TextForm(props) {
     const [text, setText] = useState('');
     const [copyStatus, setCopyStatus] = useState(''); // State for the copy status
@@ -13,6 +15,17 @@ function TextForm(props) {
         let newText = text.toLowerCase();
         setText(newText);
     }
+
+    const handleclearClick=()=>{
+        
+        setText('');
+    }
+
+    const handleRemoveExtraSpaces=()=>{
+        let newText=text.replace(/\s+/g,' ').trim();
+        setText(newText)
+    }
+
 
     const handlecopyclick = async () => {
         try {
@@ -31,20 +44,29 @@ function TextForm(props) {
 
     return (
         <>
-            <div className='container'>
+            <div className='container' style={{color:props.mode==='dark'?'white':'grey'}}>
                 <div className="mb-3 container-sm">
                     <h1 className="h1">{props.heading}</h1>
                     <textarea
+                        
                         onChange={handleonChange}
                         value={text}
                         className="form-control"
                         id="exampleFormControlTextarea1"
                         rows="8"
+                        
+                        style={{
+                            backgroundColor: props.mode === 'dark' ? 'grey' : 'white', 
+                            color: props.mode === 'dark' ? 'white' : 'grey'
+                        }}
+                        
                     ></textarea>
 
                     <button onClick={handleUpclick} className="btn btn-primary mt-3 mr-3">Convert to Uppercase</button>
                     <button onClick={handlecopyclick} className="btn btn-primary mt-3 mr-3">Copy</button>
-                    <button onClick={handleLoclick} className="btn btn-primary mt-3">Convert to Lowercase</button>
+                    <button onClick={handleLoclick} className="btn btn-primary mt-3 mr-3">Convert to Lowercase</button>
+                    <button onClick={handleRemoveExtraSpaces} className="btn btn-primary mt-3 mr-3">Remove extra spaces</button>
+                    <button onClick={handleclearClick} className="btn btn-primary mt-3 ">Clear</button>
                 </div>
 
                 <div className='mb-3 container-sm'>
@@ -53,6 +75,7 @@ function TextForm(props) {
                     <p>{0.08 * text.split(" ").filter((word) => word.length > 0).length} Minutes read</p>
 
                     <h1 className='mt-2 h2'>Preview</h1>
+                    <p>{text.length>0?text:"Enter something in the textbox above to preview"}</p>
                     <p>{text}</p>
                     {copyStatus && <p>{copyStatus}</p>}
                 </div>
