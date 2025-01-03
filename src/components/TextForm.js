@@ -9,21 +9,25 @@ function TextForm(props) {
     const handleUpclick = () => {
         let newText = text.toUpperCase();
         setText(newText);
+        props.showAlert("Converted to Uppercase", "success");
     }
 
     const handleLoclick = () => {
         let newText = text.toLowerCase();
         setText(newText);
+        props.showAlert("Converted to Lowercase", "success");
     }
 
     const handleclearClick=()=>{
         
         setText('');
+        props.showAlert("Text Cleared","success");
     }
 
     const handleRemoveExtraSpaces=()=>{
         let newText=text.replace(/\s+/g,' ').trim();
         setText(newText)
+        props.showAlert("Extra spaces removed","success");
     }
 
 
@@ -36,6 +40,7 @@ function TextForm(props) {
             console.error('Failed to copy text:', err);
             setCopyStatus('Failed to copy!');
         }
+        props.showAlert("Text copied to clipboard","success");
     }
 
     const handleonChange = (event) => {
